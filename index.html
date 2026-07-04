@@ -1,18 +1,169 @@
-<!DOCTYPE html>
-<html lang="en">
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <title>Haunted Web Page</title>
-    <link rel="stylesheet" href="style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Haunting Night — 恐怖之夜</title>
+    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="css/nav.css">
+    <link rel="stylesheet" href="css/hero.css">
+    <link rel="stylesheet" href="css/cards.css">
+    <link rel="stylesheet" href="css/animations.css">
+    <link rel="stylesheet" href="css/responsive.css">
+    <link href="https://fonts.googleapis.com/css2?family=Creepster&family=Noto+Serif+SC:wght@400;700&family=Special+Elite&display=swap" rel="stylesheet">
 </head>
 <body>
-    <div class="container">
-        <h1>Haunting Night</h1>
-        <p>The Clock ticks... <span id="clock">00:00:00</span></p>
-        <p>Something is watching you...</p>
-        <button onclick="startTerror()">Enter the Haunted Room</button>
-    </div>
+    <canvas id="particles"></canvas>
 
-    <script src="script.js"></script>
+    <nav id="navbar">
+        <div class="nav-inner">
+            <a href="#home" class="nav-logo">👁️ Haunting Night</a>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="#home" class="nav-link">🏚️ 鬼屋</a></li>
+                <li><a href="#literature" class="nav-link">📚 恐怖文学</a></li>
+                <li><a href="#legends" class="nav-link">👁️ 都市传说</a></li>
+                <li><a href="#about" class="nav-link">ℹ️ 关于</a></li>
+            </ul>
+            <button class="hamburger" id="hamburger" aria-label="菜单">
+                <span></span><span></span><span></span>
+            </button>
+        </div>
+    </nav>
+
+    <section id="home" class="section hero-section">
+        <div class="hero-overlay"></div>
+        <div class="hero-content">
+            <h1 class="glitch-title" data-text="Haunting Night">Haunting Night</h1>
+            <p class="hero-subtitle">当午夜钟声敲响，你将不再孤独……</p>
+            <div class="clock-box">
+                <span id="clock">00:00:00</span>
+            </div>
+            <button id="terrorBtn" class="btn-terror">进入鬼屋</button>
+            <div id="terrorOverlay" class="terror-overlay hidden">
+                <div class="terror-scare"></div>
+                <p class="terror-msg">你并不孤单……</p>
+                <button class="btn-escape" id="btnEscape">逃离</button>
+            </div>
+        </div>
+        <div class="scroll-hint">
+            <span>向下探索</span>
+            <div class="scroll-arrow">↓</div>
+        </div>
+    </section>
+
+    <section id="literature" class="section lit-section">
+        <h2 class="section-title reveal">📚 恐怖文学推荐</h2>
+        <p class="section-desc reveal">这些经典将带你走入黑暗的深渊……</p>
+        <div class="card-grid">
+            <div class="card reveal" data-reveal>
+                <div class="card-img">
+                    <img src="https://images.unsplash.com/photo-1509248961158-e54f6934749c?w=600&fit=crop&q=80" alt="弗兰肯斯坦" loading="lazy">
+                    <div class="card-img-overlay"></div>
+                </div>
+                <div class="card-body">
+                    <h3>弗兰肯斯坦</h3>
+                    <span class="card-author">玛丽·雪莱</span>
+                    <p>科学怪人的悲剧——当人类妄图扮演上帝，创造的怪物却拥有了灵魂。哥特文学的开山之作。</p>
+                </div>
+            </div>
+            <div class="card reveal" data-reveal>
+                <div class="card-img">
+                    <img src="https://images.unsplash.com/photo-1518780664697-2e5a0c0e2b5a?w=600&fit=crop&q=80" alt="德古拉" loading="lazy">
+                    <div class="card-img-overlay"></div>
+                </div>
+                <div class="card-body">
+                    <h3>德古拉</h3>
+                    <span class="card-author">布拉姆·斯托克</span>
+                    <p>吸血鬼伯爵从特兰西瓦尼亚降临伦敦，黑暗的诱惑与永生的诅咒交织成永恒经典。</p>
+                </div>
+            </div>
+            <div class="card reveal" data-reveal>
+                <div class="card-img">
+                    <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=600&fit=crop&q=80" alt="克苏鲁的呼唤" loading="lazy">
+                    <div class="card-img-overlay"></div>
+                </div>
+                <div class="card-body">
+                    <h3>克苏鲁的呼唤</h3>
+                    <span class="card-author">H.P. 洛夫克拉夫特</span>
+                    <p>在深海沉睡的旧日支配者，疯狂的呓语侵蚀心智。宇宙恐怖的开创者。</p>
+                </div>
+            </div>
+            <div class="card reveal" data-reveal>
+                <div class="card-img">
+                    <img src="https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=600&fit=crop&q=80" alt="闪灵" loading="lazy">
+                    <div class="card-img-overlay"></div>
+                </div>
+                <div class="card-body">
+                    <h3>闪灵</h3>
+                    <span class="card-author">斯蒂芬·金</span>
+                    <p>远望旅馆的漫长冬季，一个作家逐渐陷入疯狂。"只工作不玩耍，聪明孩子也变傻。"</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="legends" class="section legends-section">
+        <h2 class="section-title reveal">👁️ 都市传说</h2>
+        <p class="section-desc reveal">那些流传在暗夜中的故事，你敢听吗？</p>
+        <div class="card-grid">
+            <div class="card legend-card reveal" data-reveal>
+                <div class="card-img">
+                    <img src="https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=600&fit=crop&q=80" alt="裂口女" loading="lazy">
+                    <div class="card-img-overlay"></div>
+                </div>
+                <div class="card-body">
+                    <h3>裂口女</h3>
+                    <span class="card-tag">🇯🇵 日本</span>
+                    <p>戴着口罩的女人在深夜拦住路人，问："我美吗？" 无论回答什么，你都难逃一劫……</p>
+                    <a href="https://www.youtube.com/results?search_query=Kuchisake+onna+裂口女+都市传说" target="_blank" rel="noopener" class="card-link">🎬 观看相关视频 →</a>
+                </div>
+            </div>
+            <div class="card legend-card reveal" data-reveal>
+                <div class="card-img">
+                    <img src="https://images.unsplash.com/photo-1517457373958-b7bdd4587205?w=600&fit=crop&q=80" alt="如月车站" loading="lazy">
+                    <div class="card-img-overlay"></div>
+                </div>
+                <div class="card-body">
+                    <h3>如月车站</h3>
+                    <span class="card-tag">🇯🇵 日本</span>
+                    <p>深夜电车驶向一个不存在的车站。你在2ch论坛直播自己的失踪——没有人能离开如月车站。</p>
+                    <a href="https://www.youtube.com/results?search_query=如月车站+Kisaragi+Station+都市传说" target="_blank" rel="noopener" class="card-link">🎬 观看相关视频 →</a>
+                </div>
+            </div>
+            <div class="card legend-card reveal" data-reveal>
+                <div class="card-img">
+                    <img src="https://images.unsplash.com/photo-1478720568477-e2c23b1e9f3e?w=600&fit=crop&q=80" alt="Slender Man" loading="lazy">
+                    <div class="card-img-overlay"></div>
+                </div>
+                <div class="card-body">
+                    <h3>Slender Man</h3>
+                    <span class="card-tag">🇺🇸 美国</span>
+                    <p>瘦长的无面人形在树林中静静伫立。看到他的人将逐渐失去理智，然后永远消失。</p>
+                    <a href="https://www.youtube.com/results?search_query=Slender+Man+urban+legend+documentary" target="_blank" rel="noopener" class="card-link">🎬 观看相关视频 →</a>
+                </div>
+            </div>
+            <div class="card legend-card reveal" data-reveal>
+                <div class="card-img">
+                    <img src="https://images.unsplash.com/photo-1508873696983-2dfd5898f08b?w=600&fit=crop&q=80" alt="血腥玛丽" loading="lazy">
+                    <div class="card-img-overlay"></div>
+                </div>
+                <div class="card-body">
+                    <h3>血腥玛丽</h3>
+                    <span class="card-tag">🇬🇧 欧美</span>
+                    <p>午夜对着镜子念三遍"Bloody Mary"，镜中的女鬼会现身。你敢试试吗？</p>
+                    <a href="https://www.youtube.com/results?search_query=Bloody+Mary+urban+legend+ritual" target="_blank" rel="noopener" class="card-link">🎬 观看相关视频 →</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="about" class="section about-section">
+        <h2 class="section-title reveal">ℹ️ 关于本站</h2>
+        <p class="reveal">Haunting Night —— 一个收集恐怖文化与都市传说的角落。</p>
+        <p class="reveal">午夜钟声不息，故事永不终结。</p>
+        <p class="reveal copyright">© 2026 Haunting Night. 所有的恐惧都源于未知。</p>
+    </section>
+
+    <script type="module" src="js/main.js"></script>
 </body>
 </html>

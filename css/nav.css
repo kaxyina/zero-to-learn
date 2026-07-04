@@ -1,0 +1,58 @@
+﻿/* ===== nav.css — 全站导航栏 ===== */
+#navbar {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+    height: var(--nav-h);
+    background: var(--bg-nav);
+    backdrop-filter: blur(16px) saturate(140%);
+    -webkit-backdrop-filter: blur(16px) saturate(140%);
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+    transition: background 0.35s, box-shadow 0.35s;
+}
+#navbar.scrolled {
+    background: rgba(10, 10, 12, 0.92);
+    box-shadow: 0 4px 30px rgba(0,0,0,0.6);
+}
+
+.nav-inner {
+    max-width: var(--max-w); margin: 0 auto; height: 100%;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 28px;
+}
+
+.nav-logo {
+    font-family: var(--font-creep); font-size: 1.5rem;
+    color: var(--accent-glow); text-decoration: none;
+    letter-spacing: 2px;
+    transition: text-shadow 0.3s;
+}
+.nav-logo:hover {
+    text-shadow: 0 0 20px var(--accent-glow), 0 0 40px var(--accent);
+}
+
+.nav-links { display: flex; list-style: none; gap: 8px; }
+
+.nav-link {
+    color: var(--text-dim); text-decoration: none; font-size: 0.95rem;
+    padding: 8px 16px; border-radius: 8px;
+    transition: color 0.25s, background 0.25s, text-shadow 0.25s;
+}
+.nav-link:hover, .nav-link.active {
+    color: var(--accent-glow);
+    background: rgba(231, 76, 60, 0.1);
+    text-shadow: 0 0 8px rgba(231, 76, 60, 0.5);
+}
+
+/* 汉堡菜单 */
+.hamburger {
+    display: none; flex-direction: column; gap: 5px;
+    background: none; border: none; cursor: pointer;
+    padding: 8px; z-index: 1001;
+}
+.hamburger span {
+    display: block; width: 26px; height: 2px;
+    background: var(--text); border-radius: 2px;
+    transition: all 0.3s;
+}
+.hamburger.active span:nth-child(1) { transform: rotate(45deg) translate(5px, 5px); }
+.hamburger.active span:nth-child(2) { opacity: 0; }
+.hamburger.active span:nth-child(3) { transform: rotate(-45deg) translate(5px, -5px); }

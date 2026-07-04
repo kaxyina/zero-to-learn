@@ -1,52 +1,359 @@
+﻿/* ========== CSS 变量 & 基础 ========== */
+:root {
+    --bg: #0a0a0c;
+    --bg-card: #14141a;
+    --bg-nav: rgba(10, 10, 12, 0.75);
+    --text: #c8c8c8;
+    --text-dim: #787878;
+    --accent: #c0392b;
+    --accent-glow: #e74c3c;
+    --gold: #b8860b;
+    --font-creep: 'Creepster', cursive;
+    --font-serif: 'Noto Serif SC', serif;
+    --font-mono: 'Special Elite', monospace;
+    --nav-h: 64px;
+    --max-w: 1200px;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html { scroll-behavior: smooth; scrollbar-width: thin; scrollbar-color: var(--accent) var(--bg); }
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 3px; }
+
 body {
-    background-color: #111;
-    color: #fff;
-    font-family: 'Arial Black', sans-serif;
-    text-align: center;
-    margin: 0;
-    padding: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font-serif);
+    line-height: 1.7;
+    overflow-x: hidden;
+    cursor: default;
 }
 
-.container {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background-color: #222;
-    padding: 40px;
-    border-radius: 15px;
-    box-shadow: 0 0 20px #000;
+::selection { background: var(--accent); color: #fff; }
+
+/* ========== 粒子画布 ========== */
+#particles {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    z-index: 0; pointer-events: none;
 }
 
-h1 {
-    font-size: 3em;
-    margin-bottom: 20px;
-    color: #ff4444;
+/* ========== 导航栏 ========== */
+#navbar {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+    height: var(--nav-h);
+    background: var(--bg-nav);
+    backdrop-filter: blur(16px) saturate(140%);
+    -webkit-backdrop-filter: blur(16px) saturate(140%);
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+    transition: background 0.35s, box-shadow 0.35s;
+}
+#navbar.scrolled {
+    background: rgba(10, 10, 12, 0.92);
+    box-shadow: 0 4px 30px rgba(0,0,0,0.6);
 }
 
-p {
-    font-size: 1.5em;
-    margin: 15px 0;
-    animation: pulse 2s infinite;
+.nav-inner {
+    max-width: var(--max-w); margin: 0 auto; height: 100%;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 28px;
 }
 
-button {
-    padding: 15px 30px;
-    font-size: 1.2em;
-    color: #fff;
-    background-color: #880000;
-    border: none;
-    border-radius: 10px;
-    cursor: pointer;
-    transition: background-color 0.3s;
+.nav-logo {
+    font-family: var(--font-creep); font-size: 1.5rem;
+    color: var(--accent-glow); text-decoration: none;
+    letter-spacing: 2px;
+    transition: text-shadow 0.3s;
+}
+.nav-logo:hover { text-shadow: 0 0 20px var(--accent-glow), 0 0 40px var(--accent); }
+
+.nav-links { display: flex; list-style: none; gap: 8px; }
+.nav-link {
+    color: var(--text-dim); text-decoration: none; font-size: 0.95rem;
+    padding: 8px 16px; border-radius: 8px;
+    transition: color 0.25s, background 0.25s, text-shadow 0.25s;
+}
+.nav-link:hover, .nav-link.active {
+    color: var(--accent-glow); background: rgba(231, 76, 60, 0.1);
+    text-shadow: 0 0 8px rgba(231, 76, 60, 0.5);
 }
 
-button:hover {
-    background-color: #ff4444;
+/* 汉堡菜单 */
+.hamburger { display: none; flex-direction: column; gap: 5px; background: none; border: none; cursor: pointer; padding: 8px; z-index: 1001; }
+.hamburger span { display: block; width: 26px; height: 2px; background: var(--text); border-radius: 2px; transition: all 0.3s; }
+.hamburger.active span:nth-child(1) { transform: rotate(45deg) translate(5px, 5px); }
+.hamburger.active span:nth-child(2) { opacity: 0; }
+.hamburger.active span:nth-child(3) { transform: rotate(-45deg) translate(5px, -5px); }
+
+/* ========== 区块通用 ========== */
+.section { position: relative; z-index: 1; min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 100px 28px 80px; }
+.section-title { font-family: var(--font-creep); font-size: 2.8rem; color: var(--accent-glow); margin-bottom: 12px; letter-spacing: 3px; text-align: center; }
+.section-desc { color: var(--text-dim); font-size: 1.1rem; margin-bottom: 48px; text-align: center; }
+
+/* ========== 英雄区（鬼屋） ========== */
+.hero-section {
+    min-height: 100vh; position: relative;
+    background: radial-gradient(ellipse at center, #1a0a0a 0%, #0a0a0c 70%);
+}
+.hero-overlay {
+    position: absolute; inset: 0;
+    background: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.06'/%3E%3C/svg%3E");
+    opacity: 0.5; pointer-events: none;
+}
+.hero-content { position: relative; z-index: 2; text-align: center; }
+
+.glitch-title {
+    font-family: var(--font-creep); font-size: clamp(3rem, 8vw, 6rem);
+    color: var(--accent-glow); letter-spacing: 5px;
+    position: relative; display: inline-block;
+    animation: glitch-skew 4s infinite linear alternate-reverse;
+}
+.glitch-title::before, .glitch-title::after {
+    content: attr(data-text); position: absolute; top: 0; left: 0;
+    width: 100%; height: 100%; color: var(--accent-glow);
+}
+.glitch-title::before {
+    animation: glitch-1 2.5s infinite linear alternate-reverse;
+    clip-path: inset(20% 0 50% 0); text-shadow: 2px 0 cyan;
+}
+.glitch-title::after {
+    animation: glitch-2 3s infinite linear alternate-reverse;
+    clip-path: inset(60% 0 10% 0); text-shadow: -2px 0 magenta;
 }
 
-@keyframes pulse {
-    0% { transform: scale(1); }
-    50% { transform: scale(1.05); }
-    100% { transform: scale(1); }
+.hero-subtitle { font-size: 1.2rem; color: var(--text-dim); margin: 20px 0 32px; letter-spacing: 2px; }
+
+.clock-box {
+    display: inline-block; padding: 16px 40px; margin-bottom: 40px;
+    border: 1px solid rgba(231, 76, 60, 0.3); border-radius: 12px;
+    background: rgba(20, 20, 26, 0.7); backdrop-filter: blur(8px);
+}
+#clock { font-family: var(--font-mono); font-size: 2.5rem; color: var(--accent-glow); letter-spacing: 4px; }
+
+/* 按钮 */
+.btn-terror {
+    padding: 18px 50px; font-size: 1.2rem; font-family: var(--font-serif);
+    color: #fff; background: var(--accent); border: 2px solid var(--accent-glow);
+    border-radius: 12px; cursor: pointer; letter-spacing: 2px;
+    position: relative; overflow: hidden;
+    transition: all 0.35s; z-index: 1;
+}
+.btn-terror::before {
+    content: ''; position: absolute; inset: 0; z-index: -1;
+    background: linear-gradient(135deg, var(--accent), #8b0000);
+    opacity: 0; transition: opacity 0.35s;
+}
+.btn-terror:hover { transform: scale(1.06); box-shadow: 0 0 30px rgba(231, 76, 60, 0.5), 0 0 60px rgba(231, 76, 60, 0.2); }
+.btn-terror:hover::before { opacity: 1; }
+.btn-terror:active { transform: scale(0.96); }
+
+/* 恐怖覆盖层 */
+.terror-overlay {
+    position: fixed; inset: 0; z-index: 9999;
+    background: rgba(0,0,0,0.92);
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    transition: opacity 0.8s;
+}
+.terror-overlay.hidden { opacity: 0; pointer-events: none; }
+.terror-overlay:not(.hidden) { opacity: 1; pointer-events: all; animation: flicker-in 0.4s; }
+
+.terror-scare {
+    font-size: 8rem; animation: scare-pop 0.6s cubic-bezier(0.68, -0.55, 0.27, 1.55) both;
+}
+.terror-scare::after { content: '👁️'; }
+
+.terror-msg { font-size: 2rem; color: var(--accent-glow); margin: 30px 0; letter-spacing: 3px; animation: flicker-text 1.5s infinite; }
+
+.btn-escape {
+    padding: 12px 36px; font-size: 1.1rem; color: var(--text);
+    background: transparent; border: 1px solid var(--accent); border-radius: 8px;
+    cursor: pointer; transition: all 0.3s;
+}
+.btn-escape:hover { background: var(--accent); color: #fff; box-shadow: 0 0 20px rgba(231, 76, 60, 0.3); }
+
+/* 滚动提示 */
+.scroll-hint {
+    position: absolute; bottom: 40px; left: 50%; transform: translateX(-50%);
+    display: flex; flex-direction: column; align-items: center; gap: 8px;
+    color: var(--text-dim); font-size: 0.85rem; letter-spacing: 2px;
+}
+.scroll-arrow { animation: bounce 2s infinite; font-size: 1.4rem; }
+
+/* ========== 卡片网格 ========== */
+.card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 32px; max-width: var(--max-w); width: 100%;
+}
+
+.card {
+    background: var(--bg-card); border-radius: 16px;
+    overflow: hidden; border: 1px solid rgba(255,255,255,0.05);
+    transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94), box-shadow 0.4s;
+    cursor: pointer; position: relative;
+}
+.card:hover {
+    transform: translateY(-10px) scale(1.02);
+    box-shadow: 0 20px 60px rgba(0,0,0,0.5), 0 0 30px rgba(231, 76, 60, 0.15);
+    border-color: rgba(231, 76, 60, 0.3);
+}
+
+.card-img {
+    position: relative; height: 200px; overflow: hidden;
+}
+.card-img img {
+    width: 100%; height: 100%; object-fit: cover;
+    transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+.card:hover .card-img img { transform: scale(1.12); }
+
+.card-img-overlay {
+    position: absolute; inset: 0;
+    background: linear-gradient(to top, var(--bg-card) 0%, transparent 60%);
+    pointer-events: none;
+}
+
+.legend-card .card-img-overlay {
+    background: linear-gradient(to top, var(--bg-card) 0%, rgba(192, 57, 43, 0.15) 50%, transparent 70%);
+}
+
+.card-body { padding: 20px 24px 24px; }
+.card-body h3 { font-size: 1.3rem; color: var(--accent-glow); margin-bottom: 6px; letter-spacing: 1px; }
+.card-author { display: block; color: var(--gold); font-size: 0.9rem; margin-bottom: 10px; }
+.card-tag { display: inline-block; background: rgba(192, 57, 43, 0.15); color: var(--accent-glow); font-size: 0.8rem; padding: 2px 10px; border-radius: 12px; margin-bottom: 10px; }
+.card-body p { font-size: 0.93rem; color: var(--text-dim); line-height: 1.6; margin-bottom: 14px; }
+
+.card-link {
+    display: inline-flex; align-items: center; gap: 6px;
+    color: var(--accent-glow); text-decoration: none; font-size: 0.9rem;
+    padding: 8px 16px; border-radius: 8px; border: 1px solid rgba(231, 76, 60, 0.3);
+    transition: all 0.3s;
+}
+.card-link:hover { background: rgba(231, 76, 60, 0.15); box-shadow: 0 0 16px rgba(231, 76, 60, 0.25); transform: translateX(4px); }
+
+/* ========== 文学作品区 ========== */
+.lit-section { background: linear-gradient(180deg, #0a0a0c 0%, #0f0d18 50%, #0a0a0c 100%); }
+
+/* ========== 都市传说区 ========== */
+.legends-section { background: linear-gradient(180deg, #0a0a0c 0%, #140d10 50%, #0a0a0c 100%); }
+
+/* ========== 关于区 ========== */
+.about-section { min-height: 60vh; background: linear-gradient(180deg, #0a0a0c 0%, #0c0c10 100%); text-align: center; }
+.about-section p { margin-bottom: 12px; font-size: 1.05rem; }
+.copyright { margin-top: 32px !important; color: var(--text-dim); font-size: 0.85rem !important; }
+
+/* ========== 滚动入场动画 ========== */
+.reveal {
+    opacity: 0; transform: translateY(40px);
+    transition: opacity 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94), transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+.reveal.visible { opacity: 1; transform: translateY(0); }
+
+/* 交错延迟 */
+.card:nth-child(1) { transition-delay: 0.1s; }
+.card:nth-child(2) { transition-delay: 0.2s; }
+.card:nth-child(3) { transition-delay: 0.3s; }
+.card:nth-child(4) { transition-delay: 0.4s; }
+
+/* ========== 关键帧动画 ========== */
+@keyframes glitch-skew {
+    0% { transform: skew(0deg); }
+    25% { transform: skew(0deg); }
+    26% { transform: skew(1deg); }
+    27% { transform: skew(0deg); }
+    80% { transform: skew(0deg); }
+    81% { transform: skew(-0.5deg); }
+    82% { transform: skew(0deg); }
+    100% { transform: skew(0deg); }
+}
+
+@keyframes glitch-1 {
+    0% { transform: translate(0); }
+    20% { transform: translate(-3px, 2px); }
+    40% { transform: translate(3px, -1px); }
+    60% { transform: translate(-1px, 1px); }
+    80% { transform: translate(2px, -2px); }
+    100% { transform: translate(0); }
+}
+
+@keyframes glitch-2 {
+    0% { transform: translate(0); }
+    20% { transform: translate(3px, -2px); }
+    40% { transform: translate(-2px, 1px); }
+    60% { transform: translate(1px, -1px); }
+    80% { transform: translate(-3px, 2px); }
+    100% { transform: translate(0); }
+}
+
+@keyframes bounce {
+    0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+    40% { transform: translateY(-10px); }
+    60% { transform: translateY(-5px); }
+}
+
+@keyframes flicker-in {
+    0% { opacity: 0; }
+    10% { opacity: 0.3; }
+    12% { opacity: 0; }
+    14% { opacity: 0.7; }
+    16% { opacity: 0.1; }
+    20% { opacity: 0.9; }
+    30% { opacity: 0.6; }
+    35% { opacity: 1; }
+    100% { opacity: 1; }
+}
+
+@keyframes flicker-text {
+    0%, 100% { opacity: 1; }
+    41% { opacity: 1; }
+    42% { opacity: 0.3; }
+    43% { opacity: 1; }
+    45% { opacity: 0.5; }
+    46% { opacity: 1; }
+}
+
+@keyframes scare-pop {
+    0% { transform: scale(0) rotate(-20deg); opacity: 0; }
+    70% { transform: scale(1.3) rotate(5deg); opacity: 1; }
+    100% { transform: scale(1) rotate(0deg); opacity: 1; }
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-12px); }
+}
+
+/* ========== 响应式 ========== */
+@media (max-width: 768px) {
+    :root { --nav-h: 56px; }
+
+    .hamburger { display: flex; }
+
+    .nav-links {
+        position: fixed; top: 0; right: -100%;
+        width: 70%; max-width: 300px; height: 100vh;
+        flex-direction: column; gap: 0; padding: 80px 24px 24px;
+        background: rgba(10, 10, 12, 0.97);
+        backdrop-filter: blur(20px);
+        transition: right 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        border-left: 1px solid rgba(255,255,255,0.06);
+    }
+    .nav-links.open { right: 0; }
+    .nav-link { padding: 14px 16px; font-size: 1.1rem; }
+
+    .section-title { font-size: 2rem; }
+    .card-grid { grid-template-columns: 1fr; gap: 24px; }
+    .hero-subtitle { font-size: 1rem; }
+    #clock { font-size: 1.8rem; }
+    .terror-scare { font-size: 5rem; }
+    .terror-msg { font-size: 1.4rem; }
+}
+
+@media (max-width: 480px) {
+    .nav-inner { padding: 0 16px; }
+    .section { padding: 80px 16px 60px; }
+    .clock-box { padding: 12px 24px; }
+    #clock { font-size: 1.4rem; }
+    .btn-terror { padding: 14px 36px; font-size: 1rem; }
 }

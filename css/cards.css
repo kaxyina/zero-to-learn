@@ -1,0 +1,85 @@
+﻿/* ===== cards.css — 卡片组件 + 各区段背景 ===== */
+.card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 32px; max-width: var(--max-w); width: 100%;
+}
+
+.card {
+    background: var(--bg-card); border-radius: 16px;
+    overflow: hidden;
+    border: 1px solid rgba(255,255,255,0.05);
+    transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+                box-shadow 0.4s;
+    cursor: pointer; position: relative;
+}
+.card:hover {
+    transform: translateY(-10px) scale(1.02);
+    box-shadow: 0 20px 60px rgba(0,0,0,0.5),
+                0 0 30px rgba(231, 76, 60, 0.15);
+    border-color: rgba(231, 76, 60, 0.3);
+}
+
+.card-img { position: relative; height: 200px; overflow: hidden; }
+.card-img img {
+    width: 100%; height: 100%; object-fit: cover;
+    transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+.card:hover .card-img img { transform: scale(1.12); }
+
+.card-img-overlay {
+    position: absolute; inset: 0; pointer-events: none;
+    background: linear-gradient(to top, var(--bg-card) 0%, transparent 60%);
+}
+.legend-card .card-img-overlay {
+    background: linear-gradient(to top, var(--bg-card) 0%,
+                rgba(192, 57, 43, 0.15) 50%, transparent 70%);
+}
+
+.card-body { padding: 20px 24px 24px; }
+.card-body h3 {
+    font-size: 1.3rem; color: var(--accent-glow);
+    margin-bottom: 6px; letter-spacing: 1px;
+}
+.card-author {
+    display: block; color: var(--gold);
+    font-size: 0.9rem; margin-bottom: 10px;
+}
+.card-tag {
+    display: inline-block;
+    background: rgba(192, 57, 43, 0.15); color: var(--accent-glow);
+    font-size: 0.8rem; padding: 2px 10px; border-radius: 12px;
+    margin-bottom: 10px;
+}
+.card-body p {
+    font-size: 0.93rem; color: var(--text-dim);
+    line-height: 1.6; margin-bottom: 14px;
+}
+
+.card-link {
+    display: inline-flex; align-items: center; gap: 6px;
+    color: var(--accent-glow); text-decoration: none; font-size: 0.9rem;
+    padding: 8px 16px; border-radius: 8px;
+    border: 1px solid rgba(231, 76, 60, 0.3);
+    transition: all 0.3s;
+}
+.card-link:hover {
+    background: rgba(231, 76, 60, 0.15);
+    box-shadow: 0 0 16px rgba(231, 76, 60, 0.25);
+    transform: translateX(4px);
+}
+
+/* 区段背景 */
+.lit-section {
+    background: linear-gradient(180deg, #0a0a0c 0%, #0f0d18 50%, #0a0a0c 100%);
+}
+.legends-section {
+    background: linear-gradient(180deg, #0a0a0c 0%, #140d10 50%, #0a0a0c 100%);
+}
+.about-section {
+    min-height: 60vh;
+    background: linear-gradient(180deg, #0a0a0c 0%, #0c0c10 100%);
+    text-align: center;
+}
+.about-section p { margin-bottom: 12px; font-size: 1.05rem; }
+.copyright { margin-top: 32px !important; color: var(--text-dim); font-size: 0.85rem !important; }
