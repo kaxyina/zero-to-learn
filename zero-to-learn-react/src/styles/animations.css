@@ -1,0 +1,82 @@
+﻿/* ===== animations.css — 关键帧 + 滚动入场 ===== */
+
+/* 滚动入场 */
+.reveal {
+    opacity: 0; transform: translateY(40px);
+    transition: opacity 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+                transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+.reveal.visible { opacity: 1; transform: translateY(0); }
+
+/* 卡片交错延迟 */
+.card:nth-child(1) { transition-delay: 0.1s; }
+.card:nth-child(2) { transition-delay: 0.2s; }
+.card:nth-child(3) { transition-delay: 0.3s; }
+.card:nth-child(4) { transition-delay: 0.4s; }
+
+@keyframes glitch-skew {
+    0%   { transform: skew(0deg); }
+    25%  { transform: skew(0deg); }
+    26%  { transform: skew(1deg); }
+    27%  { transform: skew(0deg); }
+    80%  { transform: skew(0deg); }
+    81%  { transform: skew(-0.5deg); }
+    82%  { transform: skew(0deg); }
+    100% { transform: skew(0deg); }
+}
+
+@keyframes glitch-1 {
+    0%   { transform: translate(0); }
+    20%  { transform: translate(-3px, 2px); }
+    40%  { transform: translate(3px, -1px); }
+    60%  { transform: translate(-1px, 1px); }
+    80%  { transform: translate(2px, -2px); }
+    100% { transform: translate(0); }
+}
+
+@keyframes glitch-2 {
+    0%   { transform: translate(0); }
+    20%  { transform: translate(3px, -2px); }
+    40%  { transform: translate(-2px, 1px); }
+    60%  { transform: translate(1px, -1px); }
+    80%  { transform: translate(-3px, 2px); }
+    100% { transform: translate(0); }
+}
+
+@keyframes bounce {
+    0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+    40% { transform: translateY(-10px); }
+    60% { transform: translateY(-5px); }
+}
+
+@keyframes flicker-in {
+    0%  { opacity: 0; }
+    10% { opacity: 0.3; }
+    12% { opacity: 0; }
+    14% { opacity: 0.7; }
+    16% { opacity: 0.1; }
+    20% { opacity: 0.9; }
+    30% { opacity: 0.6; }
+    35% { opacity: 1; }
+    100%{ opacity: 1; }
+}
+
+@keyframes flicker-text {
+    0%, 100% { opacity: 1; }
+    41% { opacity: 1; }
+    42% { opacity: 0.3; }
+    43% { opacity: 1; }
+    45% { opacity: 0.5; }
+    46% { opacity: 1; }
+}
+
+@keyframes scare-pop {
+    0%   { transform: scale(0) rotate(-20deg); opacity: 0; }
+    70%  { transform: scale(1.3) rotate(5deg); opacity: 1; }
+    100% { transform: scale(1) rotate(0deg); opacity: 1; }
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-12px); }
+}
